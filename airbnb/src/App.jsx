@@ -1,5 +1,12 @@
+import Airbnb from "./assets/icon/airbnb/index";
+
 function App() {
-  return <p className="text-white">Hello world!</p>;
+  return (
+    <>
+      <Airbnb />
+      hello
+    </>
+  );
 }
 
 export default App;
