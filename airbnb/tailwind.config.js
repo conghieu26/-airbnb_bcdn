@@ -1,8 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./pages/**/*.{html,js}", "./components/**/*.{html,js}"],
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {},
   },
   plugins: [],
-};
+}
+
+
+//Cinfiguration base on this link below.
+//https://tailwindcss.com/docs/guides/vite
