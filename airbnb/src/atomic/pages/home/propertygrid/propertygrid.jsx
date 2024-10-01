@@ -19,26 +19,21 @@ const data = [
     image: 'https://dulichhangkhong.com.vn/ve-may-bay/vnt_upload/news/10_2022/cho-thu-cung-di-may-bay.jpg',
   },
 ];
-const imgStyle = {
-    height: "350px",
-    width: "100%",
-    // objectfit: "c",
-
-}
 
 export function PropertyGrid() {
   return (
-    <div style={{ padding: '20px' }}>
-        <h2>Ở bất cứ nơi đâu</h2>
+    <div className="p-5">
+      <h2 className="text-2xl font-semibold mb-6">Ở bất cứ nơi đâu</h2>
       <Row gutter={[16, 16]}>
         {data.map((item, index) => (
           <Col xs={24} sm={12} lg={6} key={index}>
             <Card
               hoverable
-              cover={<img alt={item.title} src={item.image} style={imgStyle}/>}
+              cover={<img alt={item.title} src={item.image} className="h-72 w-full object-cover rounded-lg" />}
               bordered={false}
+              className="shadow-lg"
             >
-              <Card.Meta title={item.title} />
+              <Card.Meta title={item.title} className="text-center font-medium" />
             </Card>
           </Col>
         ))}
