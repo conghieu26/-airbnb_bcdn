@@ -1,13 +1,14 @@
 import React from "react";
-import Footer from "./footer/index";
+
+import Footer from "../../components/footer/index";
+import { Home } from "../../pages/home/home";
 import Header from "./header/index";
-import {Home}  from "../../pages/home/home";
 
 export function UserTemplate() {
   return (
     <div className="bg-black">
       <Header />
-      <Home/>
+      <Home />
       <Footer />
     </div>
   );
