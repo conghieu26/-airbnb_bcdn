@@ -1,6 +1,6 @@
 import React from "react";
-import IconApple from "../../../assets/logo/iconApple/index";
-import IconGoogle from "../../../assets/logo/iconGoogle/index";
+import IconApple from "../../../assets/icon/iconApple/index";
+import IconGoogle from "../../../assets/icon/iconGoogle/index";
 
 function Register() {
   return (

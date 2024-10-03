@@ -8,7 +8,7 @@ function Header() {
       <header className="bg-black py-6 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center flex-grow">
-            <Airbnb color={"white"} />
+            <Airbnb className="w-12 h-12" />
             <span className="ml-4 text-3xl font-extrabold">airbnb</span>{" "}
           </div>
 
