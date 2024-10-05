@@ -3,6 +3,7 @@ import { Select, Form, Button, DatePicker } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -10,6 +11,7 @@ const { RangePicker } = DatePicker;
 export function SearchForm() {
   const [form] = Form.useForm();
   const [destinations, setDestinations] = useState([]);
+  const navigate = useNavigate();
 
   const fetchDestinations = async () => {
     try {
@@ -33,7 +35,10 @@ export function SearchForm() {
   }, []);
 
   const onSearch = (values) => {
-    console.log("Search values:", values);
+    const {destination} = values;
+    if(destination){
+      navigate(`/rooms?maViTri=${destination}`);
+    }
   };
 
   return (
