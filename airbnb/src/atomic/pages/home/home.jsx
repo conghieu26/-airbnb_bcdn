@@ -1,9 +1,9 @@
-import React from "react";
 import { Carousel } from "antd";
-import "antd/dist/reset.css"; // Import Ant Design CSS
-import { SearchForm } from "./searchform/searchform"; // Import the SearchForm
-import { Destinations } from "./destination/destination"; // Import component Destinations
+import "antd/dist/reset.css";
+import React from "react";
+import { Destinations } from "./destination/destination";
 import { PropertyGrid } from "./propertygrid/propertygrid";
+import SearchBar from "./searchform/searchform";
 
 export function Home() {
   return (
@@ -12,13 +12,13 @@ export function Home() {
       <div className="relative h-screen overflow-hidden">
         {/* Search Form */}
         <div className="absolute top-5 left-1/2 transform -translate-x-1/2 z-10 bg-white bg-opacity-80 p-5 rounded-lg shadow-md">
-          <SearchForm />
+          <SearchBar />
         </div>
 
         {/* Carousel */}
         <Carousel effect="fade" autoplay>
           <div>
-            <img 
+            <img
               src="https://toquoc.mediacdn.vn/280518851207290880/2023/4/5/s31-1680712574524148389340.jpg"
               className="w-full h-screen object-cover"
               alt="Slide 1"

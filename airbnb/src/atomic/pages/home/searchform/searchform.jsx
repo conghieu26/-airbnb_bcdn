@@ -1,105 +1,124 @@
-import React, { useEffect, useState } from "react";
-import { Select, Form, Button, DatePicker } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
-import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-
-export function SearchForm() {
-  const [form] = Form.useForm();
-  const [destinations, setDestinations] = useState([]);
-  const navigate = useNavigate();
-
-  const fetchDestinations = async () => {
-    try {
-      const response = await axios.get(
-        "https://airbnbnew.cybersoft.edu.vn/api/vi-tri",
-        {
-          headers: {
-            TokenCybersoft:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBETiAxMSIsIkhldEhhblN0cmluZyI6IjE3LzAyLzIwMjUiLCJIZXRIYW5UaW1lIjoiMTczOTc1MDQwMDAwMCIsIm5iZiI6MTcwOTc0NDQwMCwiZXhwIjoxNzM5ODk4MDAwfQ.qvs2zsWDKR2CRt273FQIadSYJzZM-hCro_nsLVpa-Wg",
-          },
-        },
-      );
-      setDestinations(response.data.content);
-    } catch (error) {
-      console.error("Failed to fetch destinations:", error);
-    }
-  };
+const SearchBar = () => {
+  const [locations, setLocations] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
+  const [guestCount, setGuestCount] = useState(1);
 
   useEffect(() => {
-    fetchDestinations();
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get(
+          "https://airbnbnew.cybersoft.edu.vn/api/vi-tri",
+          {
+            headers: {
+              TokenCybersoft:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBETiAxMSIsIkhldEhhblN0cmluZyI6IjE3LzAyLzIwMjUiLCJIZXRIYW5UaW1lIjoiMTczOTc1MDQwMDAwMCIsIm5iZiI6MTcwOTc0NDQwMCwiZXhwIjoxNzM5ODk4MDAwfQ.qvs2zsWDKR2CRt273FQIadSYJzZM-hCro_nsLVpa-Wg",
+            },
+          },
+        );
+        setLocations(response.data.content);
+      } catch (error) {
+        console.error("Failed to fetch destinations:", error);
+        alert("Unable to load locations. Please try again later.");
+      }
+    };
+
+    fetchLocations();
   }, []);
 
-  const onSearch = (values) => {
-    const {destination} = values;
-    if(destination){
-      navigate(`/rooms?maViTri=${destination}`);
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Search term:", searchTerm);
+    console.log("Check-in date:", checkInDate);
+    console.log("Check-out date:", checkOutDate);
+    console.log("Guest count:", guestCount);
   };
 
   return (
-    <div className="w-full">
- <Form
-      form={form}
-      layout="inline"
-      onFinish={onSearch}
-      className="bg-white bg-opacity-70 p-4 rounded-full shadow-lg flex justify-between items-center w-full max-w-7xl mx-auto"
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center justify-between p-4 bg-white rounded-full shadow-md space-x-2 w-full max-w-5xl"
     >
-      {/* Destination Field */}
-      <Form.Item name="destination" className="mr-4">
-        <Select
+      {/* Location Input */}
+      <div className="flex-grow relative border-r border-gray-300 px-4 py-2">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          list="location-options"
           placeholder="Bạn sắp đi đâu?"
-          className="max-w-64 rounded-full px-4 py-2 text-lg border-none focus:outline-none"
-          showSearch
-        >
-          {destinations.map((destination) => (
-            <Option key={destination.id} value={destination.id}>
-              {destination.tenViTri}, {destination.tinhThanh},{" "}
-              {destination.quocGia}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
-
-      {/* Date Range Picker */}
-      <Form.Item name="dates" className="mr-4">
-        <RangePicker
-          placeholder={["Nhận phòng", "Trả phòng"]}
-          className="w-72 rounded-full px-4 py-2 text-lg"
-          disabledDate={(current) =>
-            current && current < moment().startOf("day")
-          }
+          className="w-full text-lg text-gray-600 focus:outline-none" // Increase text size
         />
-      </Form.Item>
+        <datalist id="location-options">
+          {locations.map((location) => (
+            <option key={location.id} value={location.tenViTri} />
+          ))}
+        </datalist>
+      </div>
 
-      {/* Guest Selector */}
-      <Form.Item name="guests" className="mr-4">
-        <Select
-          placeholder="Thêm khách"
-          className="w-36 rounded-full px-4 py-2 text-lg h-12"
+      {/* Check-in Date Input */}
+      <div className="relative border-r border-gray-300 px-4 py-2">
+        <input
+          type="date"
+          value={checkInDate}
+          onChange={(e) => setCheckInDate(e.target.value)}
+          className="text-lg text-gray-600 focus:outline-none" // Increase text size
+          placeholder="Thêm ngày"
+        />
+      </div>
+
+      {/* Check-out Date Input */}
+      <div className="relative border-r border-gray-300 px-4 py-2">
+        <input
+          type="date"
+          value={checkOutDate}
+          onChange={(e) => setCheckOutDate(e.target.value)}
+          className="text-lg text-gray-600 focus:outline-none" // Increase text size
+          placeholder="Thêm ngày"
+        />
+      </div>
+
+      {/* Guest Count Input */}
+      <div className="relative px-4 py-2">
+        <select
+          value={guestCount}
+          onChange={(e) => setGuestCount(parseInt(e.target.value))}
+          className="text-lg text-gray-600 focus:outline-none" // Increase text size
         >
-          <Option value="1">1 Khách</Option>
-          <Option value="2">2 Khách</Option>
-          <Option value="3">3 Khách</Option>
-          <Option value="4">4 Khách</Option>
-        </Select>
-      </Form.Item>
+          {Array.from({ length: 10 }, (_, i) => (
+            <option key={i + 1} value={i + 1}>
+              {i + 1} khách
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Search Button */}
-      <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          icon={<SearchOutlined />}
-          className="bg-pink-500 text-white w-12 h-12 rounded-full flex justify-center items-center"
-        />
-      </Form.Item>
-    </Form>
-    </div>
-   
+      <button
+        type="submit"
+        className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full"
+      >
+        <svg
+          className="w-6 h-6" // Slightly increase icon size
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
+    </form>
   );
-}
+};
+
+export default SearchBar;
