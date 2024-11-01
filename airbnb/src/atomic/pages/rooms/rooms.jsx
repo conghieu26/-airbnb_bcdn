@@ -1,14 +1,26 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../components/footer/index";
 import Header from "../../components/header/index";
+import RoomFilters from "./roomFilters/index";
 function Rooms() {
   const location = useLocation();
-  const { rooms, searchTerm, checkInDate, checkOutDate, guestCount } =
-    location.state || {};
+  const {
+    rooms: initialRooms,
+    searchTerm,
+    checkInDate,
+    checkOutDate,
+    guestCount,
+  } = location.state || {};
+  const [rooms, setRooms] = useState(initialRooms);
+  const navigate = useNavigate();
 
   const handleRoomClick = (roomId) => {
     navigate(`/roomdetails?roomId=${roomId}`);
+  };
+
+  const handleFilterChange = (filteredRooms) => {
+    setRooms(filteredRooms);
   };
   return (
     <div className="flex flex-col min-h-screen">
@@ -22,19 +34,10 @@ function Rooms() {
           </h1>
 
           {/* Các bộ lọc */}
-          <div className="mb-4 gap-6 flex">
-            <button className="border px-4 py-2 rounded-full">
-              Loại nơi ở
-            </button>
-            <button className="border px-6 py-2 rounded-full">Giá</button>
-            <button className="border px-4 py-2 rounded-full">Đặt ngay</button>
-            <button className="border px-4 py-2 rounded-full">
-              Phòng và phòng ngủ
-            </button>
-            <button className="border px-4 py-2 rounded-full">
-              Bộ lọc khác
-            </button>
-          </div>
+          <RoomFilters
+            rooms={initialRooms}
+            onFilterChange={handleFilterChange}
+          />
 
           {/* Thẻ phòng */}
           <div className="space-y-4">
