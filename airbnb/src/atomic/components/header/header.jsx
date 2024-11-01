@@ -1,14 +1,21 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import Airbnb from "../../../../assets/icon/airbnb/index";
+
+import React, { useState } from "react";
+import Airbnb from "../../../assets/icon/airbnb/index";
 
 function Header() {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <div className="w-[85%] m-auto text-white">
-      <header className="bg-black py-6 shadow-md">
+      <header className="bg-black py-6 shadow-md relative">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center flex-grow">
-            <Airbnb className="w-12 h-12" />
+            <Airbnb color={"white"} />
             <span className="ml-4 text-3xl font-extrabold">airbnb</span>{" "}
           </div>
 
@@ -35,27 +42,24 @@ function Header() {
 
           {/* Right section with icons */}
           <div className="flex items-center space-x-10 flex-grow justify-end">
-            <Link
-              to="/"
-              className="hover:underline text-2xl font-semibold hover:text-red-500 transition duration-300 "
-            >
-              Đón tiếp khách
-            </Link>
-            <button className="text-2xl hover:text-red-500 transition duration-300">
-              🌐
-            </button>
-            <div className="relative">
-              <button className="text-2xl hover:text-red-500 transition duration-300">
-                🧳
+            <div className="relative inline-block text-left">
+              <button
+                className="text-3xl hover:text-red-500 transition duration-300"
+                type="button"
+                onClick={toggleMenu}
+                aria-haspopup="true"
+                aria-expanded={showMenu}
+              >
+                🌐
               </button>
-              <span className="absolute top-[-10px] right-[-10px] bg-red-600 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center">
-                2
-              </span>
             </div>
-            <button className="text-2xl hover:text-red-500 transition duration-300">
+            <button
+              onClick={toggleMenu}
+              className="text-3xl hover:text-red-500 transition duration-300"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8"
+                className="h-9 w-9"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -68,6 +72,23 @@ function Header() {
                 />
               </svg>
             </button>
+
+            {showMenu && (
+              <div className="absolute top-20 right-0 w-48 bg-gray-800 text-white py-3 rounded-md shadow-lg z-50">
+                <Link
+                  to="/register"
+                  className="block px-4 py-2 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 transition duration-300 rounded-md"
+                >
+                  Đăng ký
+                </Link>
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 transition duration-300 rounded-md"
+                >
+                  Đăng nhập
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </header>

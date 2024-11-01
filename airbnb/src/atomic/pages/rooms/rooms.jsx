@@ -1,45 +1,18 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import Footer from "../../components/footer/index";
-import Header from "./header/index";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-
+import Header from "../../components/header/index";
 function Rooms() {
-  const [rooms, setRooms] = useState([]);
-  const [searchParams] = useSearchParams();
-  const maViTri = searchParams.get("maViTri");
-  const navigate = useNavigate();
+  const location = useLocation();
+  const { rooms, searchTerm, checkInDate, checkOutDate, guestCount } =
+    location.state || {};
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const response = await axios.get(
-          `https://airbnbnew.cybersoft.edu.vn/api/phong-thue/lay-phong-theo-vi-tri?maViTri=${maViTri}`,
-          {
-            headers: {
-              TokenCybersoft:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBETiAxMSIsIkhldEhhblN0cmluZyI6IjE3LzAyLzIwMjUiLCJIZXRIYW5UaW1lIjoiMTczOTc1MDQwMDAwMCIsIm5iZiI6MTcwOTc0NDQwMCwiZXhwIjoxNzM5ODk4MDAwfQ.qvs2zsWDKR2CRt273FQIadSYJzZM-hCro_nsLVpa-Wg",
-            },
-          },
-        );
-        setRooms(response.data.content); // Cập nhật danh sách phòng từ API
-      } catch (error) {
-        console.error("Lỗi khi gọi API", error);
-      }
-    };
-
-    if (maViTri) {
-      fetchRooms();
-    }
-  }, [maViTri]);
   const handleRoomClick = (roomId) => {
-    navigate(`/roomdetails?roomId=${roomId}`); // Điều hướng tới trang chi tiết của phòng
+    navigate(`/roomdetails?roomId=${roomId}`);
   };
-
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header color="bg-white" />
       <div className="border-b"></div>
       <div className="flex">
         {/* Phần danh sách phòng ở bên trái */}
@@ -65,7 +38,7 @@ function Rooms() {
 
           {/* Thẻ phòng */}
           <div className="space-y-4">
-            {rooms.map((room) => (
+            {rooms?.map((room) => (
               <div
                 key={room.id}
                 className="border p-4 rounded-lg flex gap-4 cursor-pointer"
@@ -104,7 +77,7 @@ function Rooms() {
         <div className="w-1/2 p-4">
           <div className="relative">
             <img
-              src="img/Untitled.png" // Đường dẫn tới bản đồ
+              src="img/Untitled.png"
               alt="Bản đồ"
               className="w-full h-full object-cover rounded-lg"
             />
