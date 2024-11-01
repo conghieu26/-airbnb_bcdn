@@ -1,12 +1,11 @@
-// RoomFilters.js
-
 import React, { useEffect, useState } from "react";
 
 const RoomFilters = ({ rooms, onFilterChange }) => {
   const [typeFilter, setTypeFilter] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [bookNowFilter, setBookNowFilter] = useState(false);
-  const [roomsBedroomsFilter, setRoomsBedroomsFilter] = useState("");
+  const [bedroomsFilter, setBedroomsFilter] = useState("");
+  const [bathroomsFilter, setBathroomsFilter] = useState("");
 
   const handleTypeFilterChange = (event) => {
     setTypeFilter(event.target.value);
@@ -16,12 +15,16 @@ const RoomFilters = ({ rooms, onFilterChange }) => {
     setPriceFilter(event.target.value);
   };
 
-  const handleBookNowFilterChange = (event) => {
-    setBookNowFilter(event.target.checked);
+  // const handleBookNowFilterChange = (event) => {
+  //   setBookNowFilter(event.target.checked);
+  // };
+
+  const handleBedroomsFilterChange = (event) => {
+    setBedroomsFilter(event.target.value);
   };
 
-  const handleRoomsBedroomsFilterChange = (event) => {
-    setRoomsBedroomsFilter(event.target.value);
+  const handleBathroomsFilterChange = (event) => {
+    setBathroomsFilter(event.target.value);
   };
 
   const applyFilters = () => {
@@ -46,6 +49,14 @@ const RoomFilters = ({ rooms, onFilterChange }) => {
         matches = false;
       }
 
+      if (bedroomsFilter && room.phongNgu !== parseInt(bedroomsFilter)) {
+        matches = false;
+      }
+
+      if (bathroomsFilter && room.phongTam !== parseInt(bathroomsFilter)) {
+        matches = false;
+      }
+
       return matches;
     });
 
@@ -55,7 +66,7 @@ const RoomFilters = ({ rooms, onFilterChange }) => {
   // Call applyFilters whenever a filter value changes
   useEffect(() => {
     applyFilters();
-  }, [typeFilter, priceFilter, bookNowFilter, roomsBedroomsFilter]);
+  }, [typeFilter, priceFilter, bookNowFilter, bathroomsFilter, bedroomsFilter]);
 
   return (
     <div className="mb-4 gap-4 flex flex-col md:flex-row md:items-center">
@@ -94,18 +105,40 @@ const RoomFilters = ({ rooms, onFilterChange }) => {
         </select>
       </div>
 
-      {/* Phòng và phòng ngủ (needs more info on data structure) */}
+      {/* Phòng ngủ */}
       <div className="md:w-1/4">
-        <label htmlFor="phong-va-phong-ngu" className="block mb-1">
-          Phòng và phòng ngủ:
+        <label htmlFor="phong-ngu" className="block mb-1">
+          Phòng ngủ:
         </label>
         <select
-          id="phong-va-phong-ngu"
-          value={roomsBedroomsFilter}
-          onChange={handleRoomsBedroomsFilterChange}
+          id="phong-ngu"
+          value={bedroomsFilter}
+          onChange={handleBedroomsFilterChange}
           className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="">Tất cả</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          {/* ... more options as needed */}
+        </select>
+      </div>
+
+      {/* Phòng tắm */}
+      <div className="md:w-1/4">
+        <label htmlFor="phong-tam" className="block mb-1">
+          Phòng tắm:
+        </label>
+        <select
+          id="phong-tam"
+          value={bathroomsFilter}
+          onChange={handleBathroomsFilterChange}
+          className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+        >
+          <option value="">Tất cả</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          {/* ... more options as needed */}
         </select>
       </div>
     </div>

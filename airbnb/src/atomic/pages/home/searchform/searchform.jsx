@@ -51,9 +51,28 @@ const SearchBar = () => {
           },
         },
       );
+
+      let filteredRooms = response.data.content;
+
+      if (guestCount) {
+        filteredRooms = filteredRooms.filter(
+          (room) => room.khach >= guestCount,
+        );
+      }
+
+      if (checkInDate && checkOutDate) {
+        filteredRooms = filteredRooms.filter((room) => {
+          const availableDates = room.availableDates || [];
+          return (
+            availableDates.includes(checkInDate) &&
+            availableDates.includes(checkOutDate)
+          );
+        });
+      }
+
       navigate("/rooms", {
         state: {
-          rooms: response.data.content,
+          rooms: filteredRooms,
           searchTerm,
           checkInDate,
           checkOutDate,
@@ -64,6 +83,7 @@ const SearchBar = () => {
       console.error("Error fetching room data:", error);
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit}

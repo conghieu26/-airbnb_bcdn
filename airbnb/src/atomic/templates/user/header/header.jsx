@@ -45,9 +45,6 @@ function Header() {
               <button
                 className="text-3xl hover:text-red-500 transition duration-300"
                 type="button"
-                onClick={toggleMenu}
-                aria-haspopup="true"
-                aria-expanded={showMenu}
               >
                 🌐
               </button>
