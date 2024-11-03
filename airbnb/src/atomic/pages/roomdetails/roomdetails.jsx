@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import Comments from "./comments/comments";
 import Description from "./description/index";
 import Payment from "./payment/index";
 import Titles from "./titles/index";
@@ -71,6 +72,7 @@ export function RoomDetails() {
                 hoBoi={room.hoBoi}
                 banUi={room.banUi}
               />
+              <Comments MaPhong={roomId} />
             </div>
             <div className="w-1/3">
               <Payment />
