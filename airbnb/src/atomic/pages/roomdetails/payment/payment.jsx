@@ -1,36 +1,24 @@
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import BookingTime from "../../../components/bookingInformation/bookingTime/bookingTime";
+import CustomerQuantity from "../../../components/bookingInformation/customerQuantity/customerQuantity";
 
 function Payment() {
   return (
-    <div className="max-w-[30rem] mx-auto mt-10 p-4 border rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-2xl font-semibold">
-          $44 <span className="text-sm font-normal">/ đêm</span>
+    <div className="p-4 border rounded shadow relative">
+      <div className="flex justify-between items-center">
+        <div className="text-2xl font-bold">
+          $44 <span className="text-sm text-gray-600">/ đêm</span>
         </div>
         <div className="flex items-center text-sm text-gray-600">
-          <i className="fas fa-star text-red-500 mr-1"></i>
-          4,83 <span className="underline ml-1">(18 đánh giá)</span>
+          <FontAwesomeIcon icon={faStar} className="pb-1 text-red-500" />
+          <span className="ml-1 text-red-500">4.83</span>
+          <span className="underline ml-1">(18 đánh giá)</span>
         </div>
       </div>
-      <div className="border rounded-lg p-2 mb-4">
-        <div className="grid grid-cols-2 gap-2 mb-2">
-          <div>
-            <div className="text-xs text-gray-500">NHẬN PHÒNG</div>
-            <div>8/7/2021</div>
-          </div>
-          <div>
-            <div className="text-xs text-gray-500">TRẢ PHÒNG</div>
-            <div>13/7/2021</div>
-          </div>
-        </div>
-        <div className="border-t pt-2">
-          <div className="text-xs text-gray-500">KHÁCH</div>
-          <div className="flex justify-between items-center">
-            <div>3 khách</div>
-            <i className="fas fa-chevron-down"></i>
-          </div>
-        </div>
-      </div>
+      <BookingTime />
+      <CustomerQuantity />
       <button className="w-full bg-red-500 text-white py-2 rounded-lg mb-4">
         Đặt phòng
       </button>
@@ -45,8 +33,8 @@ function Payment() {
         <div>Phí dịch vụ</div>
         <div>$31</div>
       </div>
-      <div className="border-t pt-2 flex justify-between text-sm font-semibold">
-        <div>Tổng</div>
+      <div className="flex justify-between text-sm font-bold mb-4">
+        <div>Tổng trước thuế</div>
         <div>$252</div>
       </div>
       <div className="text-center text-sm text-gray-500 mt-4">
