@@ -9,6 +9,7 @@ import Rooms from "../atomic/pages/rooms/index";
 import { UserTemplate } from "../atomic/templates/user/user.template";
 import {PersonalPage} from "../atomic/pages/personal/personal"
 import {UserManagement} from "../atomic/pages/usermanagement/usermanagement"
+import {RoomManagement} from "../atomic/pages/roommanagement/roommanagement"
 
 export const router = createBrowserRouter([
   {
@@ -42,5 +43,13 @@ export const router = createBrowserRouter([
   {
     path: "admin",
     element: <UserManagement />,
+  },
+
+
+
+
+  {
+    path: "roommanage",
+    element: <RoomManagement />,
   },
 ]);
