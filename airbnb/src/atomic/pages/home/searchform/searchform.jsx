@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BookingTime from "../../../components/bookingInformation/bookingTime/bookingTime";
+import BookingLocation from "../../../components/bookingInformation/bookinglocation/bookinglocation";
+import CustomerQuantity from "../../../components/bookingInformation/customerQuantity/customerQuantity";
 
 const SearchBar = () => {
   const [locations, setLocations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
-  const [guestCount, setGuestCount] = useState(1);
 
   const navigate = useNavigate();
 
@@ -46,37 +46,16 @@ const SearchBar = () => {
           },
           params: {
             maViTri: locations.find((loc) => loc.tenViTri === searchTerm)?.id,
-            ngayDen: checkInDate,
-            ngayDi: checkOutDate,
           },
         },
       );
 
       let filteredRooms = response.data.content;
 
-      if (guestCount) {
-        filteredRooms = filteredRooms.filter(
-          (room) => room.khach >= guestCount,
-        );
-      }
-
-      if (checkInDate && checkOutDate) {
-        filteredRooms = filteredRooms.filter((room) => {
-          const availableDates = room.availableDates || [];
-          return (
-            availableDates.includes(checkInDate) &&
-            availableDates.includes(checkOutDate)
-          );
-        });
-      }
-
       navigate("/rooms", {
         state: {
           rooms: filteredRooms,
           searchTerm,
-          checkInDate,
-          checkOutDate,
-          guestCount,
         },
       });
     } catch (error) {
@@ -90,58 +69,17 @@ const SearchBar = () => {
       className="flex items-center justify-between p-4 bg-white rounded-full shadow-md space-x-2 w-full max-w-5xl"
     >
       {/* Location Input */}
-      <div className="flex-grow relative border-r border-gray-300 px-4 py-2">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          list="location-options"
-          placeholder="Bạn sắp đi đâu?"
-          className="w-full text-lg text-gray-600 focus:outline-none"
-        />
-        <datalist id="location-options">
-          {locations.map((location) => (
-            <option key={location.id} value={location.tenViTri} />
-          ))}
-        </datalist>
-      </div>
+      <BookingLocation
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        locations={locations}
+      />
 
-      {/* Check-in Date Input */}
-      <div className="relative border-r border-gray-300 px-4 py-2">
-        <input
-          type="date"
-          value={checkInDate}
-          onChange={(e) => setCheckInDate(e.target.value)}
-          className="text-lg text-gray-600 focus:outline-none" // Increase text size
-          placeholder="Thêm ngày"
-        />
-      </div>
-
-      {/* Check-out Date Input */}
-      <div className="relative border-r border-gray-300 px-4 py-2">
-        <input
-          type="date"
-          value={checkOutDate}
-          onChange={(e) => setCheckOutDate(e.target.value)}
-          className="text-lg text-gray-600 focus:outline-none"
-          placeholder="Thêm ngày"
-        />
-      </div>
+      {/* Date Input */}
+      <BookingTime />
 
       {/* Guest Count Input */}
-      <div className="relative px-4 py-2">
-        <select
-          value={guestCount}
-          onChange={(e) => setGuestCount(parseInt(e.target.value))}
-          className="text-lg text-gray-600 focus:outline-none"
-        >
-          {Array.from({ length: 10 }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1} khách
-            </option>
-          ))}
-        </select>
-      </div>
+      <CustomerQuantity />
 
       {/* Search Button */}
       <button

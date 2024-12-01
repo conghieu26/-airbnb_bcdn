@@ -9,7 +9,7 @@ import React from "react";
 
 function Description({ tenPhong, khach, phongNgu, giuong, phongTam, moTa }) {
   return (
-    <div className="max-w-6xl mx-auto p-4">
+    <div className="mx-auto p-4">
       <div className="flex items-center mb-4">
         <div className="flex-grow">
           <h1 className="text-3xl font-bold">{tenPhong}</h1>
